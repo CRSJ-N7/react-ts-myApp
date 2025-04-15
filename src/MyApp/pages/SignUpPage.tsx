@@ -1,26 +1,26 @@
-import { Button, TextField } from "@mui/material";
 import { api } from "../api/axios";
 import { useState } from "react";
-import { customButton } from "../styles/buttons";
-import { customForm } from "../styles/forms";
-const LoginPage = () => {
+const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await api.post("auth/sign-in", { email, password });
-      if (response.status === 200) {
+      const response = await api.post("auth/sign-up", { email, password, username });
+
+      if (response.status === 201) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("id", JSON.stringify(response.data.user.id));
-        localStorage.setItem("email", JSON.stringify(response.data.user.email));
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("id", JSON.stringify(response.data.safeUser.id));
+        localStorage.setItem("email", JSON.stringify(response.data.safeUser.email));
         localStorage.setItem(
           "user",
-          JSON.stringify(response.data.user.username)
+          JSON.stringify(response.data.safeUser.username)
         );
-        localStorage.setItem("auth", "true");
-        console.log(response.data.user);
+        console.log(response.data.safeUser);
         window.location.href = "/profile";
       }
     } catch (error) {
@@ -29,28 +29,30 @@ const LoginPage = () => {
       console.log(error);
     }
   };
-
+  
   return localStorage.getItem("auth") === "true" ? null : (
     <form onSubmit={handleSubmit}>
-      <TextField
+      <input
+       type="text"
+       value={username}
+       onChange={(e) => setUsername(e.target.value)}
+       placeholder="username"
+     />
+      <input
         type="email"
-        label="email"
-        sx={customForm.root}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        placeholder="email"
       />
-      <TextField
+      <input
         type="password"
-        sx={customForm.root}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        label="password"
+        placeholder="password"
       />
-      <Button variant="outlined" type="submit" sx={customButton.root}>
-        Submit
-      </Button>
+      <button type="submit">Register</button>
     </form>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;
