@@ -3,10 +3,10 @@ import MyAppRoutes from "./routes/MyAppRoutes";
 
 const MyApp = () => {
   return (
-  <>
-  <Navigation/>
-  <MyAppRoutes/>
-  </>
+    <>
+      <Navigation />
+      <MyAppRoutes />
+      </>
   );
 };
 

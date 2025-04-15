@@ -1,5 +1,5 @@
 import { api } from "../api/axios";
-import { useState } from 'react';
+import { useState } from "react";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,15 +8,26 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await api.post("auth/sign-in", { email, password });
-      console.log("Токен:", response.data.token);
-      console.log("Пользователь:", response.data.user);
-      localStorage.setItem("token", response.data.token);
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("id", JSON.stringify(response.data.user.id));
+        localStorage.setItem("email", JSON.stringify(response.data.user.email));
+        localStorage.setItem(
+          "user",
+          JSON.stringify(response.data.user.username)
+        );
+        localStorage.setItem("auth", "true");
+        console.log(response.data.user);
+        window.location.href = "/profile";
+      }
     } catch (error) {
+      localStorage.clear();
+      localStorage.setItem("auth", "false");
       console.log(error);
     }
   };
 
-  return (
+  return localStorage.getItem("auth") === "true" ? null : (
     <form onSubmit={handleSubmit}>
       <input
         type="email"
