@@ -1,7 +1,7 @@
-export const customForm = {
+export const customButton = {
   root: {
     color: '#FFFFFF',
-    backgroundColor: 'rgb(124, 69, 214)',
+    backgroundColor: '#6e3cbd',
     '&:hover': {
       backgroundColor: '#7c45d6',
     },
@@ -9,5 +9,4 @@ export const customForm = {
       boxShadow: 'none',
     },
   },  
-
 };

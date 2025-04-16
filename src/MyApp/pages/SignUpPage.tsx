@@ -1,16 +1,41 @@
 import { api } from "../api/axios";
-import { useState } from "react";
+import { useFormik } from "formik";
+import { type FormValues } from "../types/types";
+import { TextField, Button } from "@mui/material";
+import { customForm } from "../mui-styles/forms";
+import { customButton } from "../mui-styles/buttons";
+import { useNavigate } from "react-router-dom";
+import c from './Form.module.css';
+import * as Yup from 'yup';
+
 const SignUpPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const validationSchema = Yup.object({
+    username: Yup.string()
+      .min(3, "Username must be at least 3 characters long")
+      .max(20, "Username length must not exceed 20 characters")
+      .required("Required field"),
+    email: Yup.string().email().required("Required field"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(20, "Password length must not exceed 20 characters")
+      .matches(
+        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*/,
+        "The password must contain numbers, lowercase and uppercase letters."
+      ).required("Required field")
+  });
 
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await api.post("auth/sign-up", { email, password, username });
-
+  const formik = useFormik<FormValues>({
+      initialValues: {
+        email: "",
+        password: "",
+        username: "",
+      },
+      validationSchema,
+      onSubmit: async (values) => {
+        try {
+      const response = await api.post("auth/sign-up", values);
+      console.log(response);
       if (response.status === 201) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("auth", "true");
@@ -21,37 +46,68 @@ const SignUpPage = () => {
           JSON.stringify(response.data.safeUser.username)
         );
         console.log(response.data.safeUser);
-        window.location.href = "/profile";
+        navigate("/profile");
       }
-    } catch (error) {
-      localStorage.clear();
-      localStorage.setItem("auth", "false");
-      console.log(error);
-    }
-  };
+        }
+        catch (error) {
+          localStorage.clear();
+          localStorage.setItem("auth", "false");
+          console.log(error);
+        }
+      }})
+
+      if (localStorage.getItem('auth') === 'true') {
+        return null;
+      }
   
-  return localStorage.getItem("auth") === "true" ? null : (
-    <form onSubmit={handleSubmit}>
-      <input
-       type="text"
-       value={username}
-       onChange={(e) => setUsername(e.target.value)}
-       placeholder="username"
-     />
-      <input
+  return (
+    <div className={c.formContainerWrapper}>
+    <form className={c.formContainer} onSubmit={formik.handleSubmit}>
+      <TextField
+        id="username"
+        name="username"
+        type="username"
+        label="username"
+        defaultValue="Small"
+        className={c.textField}
+        onBlur={formik.handleBlur}
+        error={formik.touched.username && Boolean(formik.errors.username)}
+        helperText={formik.touched.username && formik.errors.username}
+        sx={customForm.root}
+        value={formik.values.username}
+        onChange={formik.handleChange}
+      />
+      <TextField
+        id="email"
+        name="email"
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="email"
+        label="email"
+        className={c.textField}
+        onBlur={formik.handleBlur}
+        error={formik.touched.email && Boolean(formik.errors.email)}
+        helperText={formik.touched.email && formik.errors.email}
+        sx={customForm.root}
+        value={formik.values.email}
+        onChange={formik.handleChange}
       />
-      <input
+      <TextField
+        id="password"
+        name="password"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="password"
+        label="password"
+        className={c.textField}
+        onBlur={formik.handleBlur}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        helperText={formik.touched.password && formik.errors.password}
+        sx={customForm.root}
+        value={formik.values.password}
+        onChange={formik.handleChange}
       />
-      <button type="submit">Register</button>
+      <Button variant="outlined" type="submit" sx={customButton.root}>
+        Register
+      </Button>
     </form>
+    </div>
   );
 };
 
