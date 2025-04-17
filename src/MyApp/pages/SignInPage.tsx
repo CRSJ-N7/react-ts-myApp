@@ -4,13 +4,17 @@ import { Button, CardContent, Card, TextField, Typography } from "@mui/material"
 import { customButton } from "../mui-styles/buttons";
 import { customForm } from "../mui-styles/forms";
 import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../store/authSlice";
 import { type FormValues } from "../types/types";
+import { selectorAuth } from "../store/authSlice";
 import * as Yup from 'yup';
 import c from './Form.module.css'
 
 const SignInPage = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const validationSchema = Yup.object({
     email: Yup.string().required("Required field"),
     password: Yup.string()
@@ -32,15 +36,16 @@ const SignInPage = () => {
       try {
         const response = await api.post("auth/sign-in", values)
         if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("id", JSON.stringify(response.data.user.id));
-        localStorage.setItem("email", JSON.stringify(response.data.user.email));
-        localStorage.setItem(
-          "user",
-          JSON.stringify(response.data.user.username)
-        );
-        localStorage.setItem("auth", "true");
-        console.log(response.data.user);
+          dispatch(login({ 
+            
+            token: response.data.token,
+            user: {
+              id: response.data.user.id,
+              username: response.data.user.username,
+              email: response.data.user.email,
+            }
+          }
+          ))
         navigate("/profile")
         }
       } catch (error) {
@@ -49,12 +54,13 @@ const SignInPage = () => {
   }
   })
 
-  if (localStorage.getItem("auth") === 'true') {
-    return null;
+  if (useSelector(selectorAuth)) {
+    return null
   }
 
+
   return (
-    <Card sx={{ maxWidth: 500, mx: "auto", mt: 4 }}>
+    <Card sx={{ maxWidth: 500, mx: "auto", mt: 5 }}>
       <CardContent>
         <Typography variant="h5" component="h2" gutterBottom align="center">
           Sign In
@@ -66,6 +72,7 @@ const SignInPage = () => {
               name="email"
               type="email"
               label="email"
+              className={c.textField}
               sx={customForm.root}
               value={formik.values.email}
               onBlur={formik.handleBlur}
@@ -78,6 +85,7 @@ const SignInPage = () => {
               name="password"
               type="password"
               label="password"
+              className={c.textField}
               sx={customForm.root}
               value={formik.values.password}
               onChange={formik.handleChange}

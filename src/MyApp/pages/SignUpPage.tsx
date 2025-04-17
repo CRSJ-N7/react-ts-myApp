@@ -5,11 +5,15 @@ import { TextField, Button, Card, CardContent, Typography } from "@mui/material"
 import { customForm } from "../mui-styles/forms";
 import { customButton } from "../mui-styles/buttons";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 import c from './Form.module.css';
 import * as Yup from 'yup';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const validationSchema = Yup.object({
     username: Yup.string()
       .min(3, "Username must be at least 3 characters long")
@@ -37,28 +41,23 @@ const SignUpPage = () => {
       const response = await api.post("auth/sign-up", values);
       console.log(response);
       if (response.status === 201) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("auth", "true");
-        localStorage.setItem("id", JSON.stringify(response.data.safeUser.id));
-        localStorage.setItem("email", JSON.stringify(response.data.safeUser.email));
-        localStorage.setItem(
-          "user",
-          JSON.stringify(response.data.safeUser.username)
-        );
+        dispatch(login({
+          token: response.data.token,
+          user: {
+            username: response.data.safeUser.username,
+            id: response.data.safeUser.id,
+            email: response.data.safeUser.email,
+          }
+        }))
         console.log(response.data.safeUser);
         navigate("/profile");
       }
         }
         catch (error) {
-          localStorage.clear();
-          localStorage.setItem("auth", "false");
+
           console.log(error);
         }
       }})
-
-      if (localStorage.getItem('auth') === 'true') {
-        return null;
-      }
   
   return (
     <Card sx={{ maxWidth: 500, mx: 'auto', mt: 4 }}>

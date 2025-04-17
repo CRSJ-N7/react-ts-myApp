@@ -1,13 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import MyApp from './MyApp/MyApp.tsx'
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import { store } from './MyApp/store/store.ts';
+import MyApp from './MyApp/MyApp.tsx';
+import './index.css'
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-    <MyApp />
-    </BrowserRouter>
-  </StrictMode>,
-)
+    <Provider store={store}>
+      <BrowserRouter>
+        <MyApp />
+      </BrowserRouter>
+    </Provider>
+  </StrictMode>
+);

@@ -1,18 +1,19 @@
 import { Card, CardContent } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectUserData } from "../store/authSlice";
 
 const ProfilePage = () => {
-
-const user = localStorage.getItem('user')?.replace('"', '').replace('"','') || null;
-const email = localStorage.getItem('email')?.replace('"', '').replace('"', '') || null;
-const id = localStorage.getItem('id') || null;
+  
+  const selector = useSelector(selectUserData)
 
   return (
     <div>
-      <Card>
+      <Card sx={{ maxWidth: 300, mx: "auto", mt: 5 }}>
         <CardContent>
-          <h1>Username: {user} </h1>
-          <h1>id: {id} </h1>
-          <h1>email: {email}</h1>
+          <h2>{selector.username}'s profile</h2>
+          <p>Username: {selector.username}</p>
+          <p>id: {selector.id}</p>
+          <p>email: {selector.email}</p>
         </CardContent>
       </Card>
     </div>
