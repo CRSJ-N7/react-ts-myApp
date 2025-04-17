@@ -1,7 +1,7 @@
 import { api } from "../api/axios";
 import { useFormik } from "formik";
 import { type FormValues } from "../types/types";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Card, CardContent, Typography } from "@mui/material";
 import { customForm } from "../mui-styles/forms";
 import { customButton } from "../mui-styles/buttons";
 import { useNavigate } from "react-router-dom";
@@ -61,6 +61,11 @@ const SignUpPage = () => {
       }
   
   return (
+    <Card sx={{ maxWidth: 500, mx: 'auto', mt: 4 }}>
+    <CardContent>
+      <Typography variant="h5" component="h2" gutterBottom align="center">
+        Sign Up
+      </Typography>
     <div className={c.formContainerWrapper}>
     <form className={c.formContainer} onSubmit={formik.handleSubmit}>
       <TextField
@@ -108,6 +113,8 @@ const SignUpPage = () => {
       </Button>
     </form>
     </div>
+    </CardContent>
+    </Card>
   );
 };
 
