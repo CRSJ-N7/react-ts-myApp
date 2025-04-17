@@ -5,14 +5,11 @@ import { customButton } from "../mui-styles/buttons";
 
 const Navigation = () => {
   const navigate = useNavigate();
-  const signOut = () => {
+
+  const handleSignOut = () => {
     localStorage.clear();
     localStorage.setItem("auth", "false");
-    navigate("/");
-    window.location.reload();
-  };
-  const handleSignOut = () => {
-    signOut();
+    navigate("/sign-up");
   };
 
   const isAuthenticated = localStorage.getItem("auth") === "true";
@@ -63,8 +60,6 @@ const Navigation = () => {
         <Button
           variant="outlined"
           sx={customButton.root}
-          component={Link}
-          to={"/"}
           onClick={handleSignOut}
         >
           Sign out

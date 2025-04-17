@@ -54,44 +54,43 @@ const SignInPage = () => {
   }
 
   return (
-
-    <Card sx={{ maxWidth: 500, mx: 'auto', mt: 4 }}>
-    <CardContent>
-      <Typography variant="h5" component="h2" gutterBottom align="center">
-        Sign In
-      </Typography>
-    <div className={c.formContainerWrapper}>
-      <form className={c.formContainer} onSubmit={formik.handleSubmit}>
-        <TextField
-          id="email"
-          name="email"
-          type="email"
-          label="email"
-          sx={customForm.root}
-          value={formik.values.email}
-          onBlur={formik.handleBlur}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          onChange={formik.handleChange}
-        />
-        <TextField
-          id="password"
-          name="password"
-          type="password"
-          label="password"
-          sx={customForm.root}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
-        <Button variant="outlined" type="submit" sx={customButton.root}>
-          Submit
-        </Button>
-      </form>
-    </div>
-    </CardContent>
+    <Card sx={{ maxWidth: 500, mx: "auto", mt: 4 }}>
+      <CardContent>
+        <Typography variant="h5" component="h2" gutterBottom align="center">
+          Sign In
+        </Typography>
+        <div className={c.formContainerWrapper}>
+          <form className={c.formContainer} onSubmit={formik.handleSubmit}>
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              label="email"
+              sx={customForm.root}
+              value={formik.values.email}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              onChange={formik.handleChange}
+            />
+            <TextField
+              id="password"
+              name="password"
+              type="password"
+              label="password"
+              sx={customForm.root}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
+            <Button variant="outlined" type="submit" sx={customButton.root}>
+              Submit
+            </Button>
+          </form>
+        </div>
+      </CardContent>
     </Card>
   );
 };

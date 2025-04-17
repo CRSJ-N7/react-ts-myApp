@@ -73,7 +73,6 @@ const SignUpPage = () => {
         name="username"
         type="username"
         label="username"
-        defaultValue="Small"
         className={c.textField}
         onBlur={formik.handleBlur}
         error={formik.touched.username && Boolean(formik.errors.username)}
