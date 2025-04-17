@@ -10,6 +10,7 @@ export const formColors = {
 };
 
 export const buttonColors = {
-  background: '#a44949',
-  text: '#ffffffbb',
+  background: '#6e3cbd',
+  backgroundHover: '#7c45d6',
+  text: '#ffffff',
 }

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { createSelector } from '@reduxjs/toolkit';
 
+
 type User = {
   username: string | null;
   id: string | null;
@@ -53,5 +54,6 @@ export const selectUserData = createSelector(
   [selectAuth],
   (auth) => auth.user
 );
+
 export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;

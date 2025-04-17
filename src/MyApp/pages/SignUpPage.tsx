@@ -60,7 +60,7 @@ const SignUpPage = () => {
       }})
   
   return (
-    <Card sx={{ maxWidth: 500, mx: 'auto', mt: 4 }}>
+    <Card elevation={24} sx={{ maxWidth: 500, mx: 'auto', mt: 4 }}>
     <CardContent>
       <Typography variant="h5" component="h2" gutterBottom align="center">
         Sign Up

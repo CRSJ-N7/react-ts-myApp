@@ -37,7 +37,6 @@ const SignInPage = () => {
         const response = await api.post("auth/sign-in", values)
         if (response.status === 200) {
           dispatch(login({ 
-            
             token: response.data.token,
             user: {
               id: response.data.user.id,
@@ -60,7 +59,7 @@ const SignInPage = () => {
 
 
   return (
-    <Card sx={{ maxWidth: 500, mx: "auto", mt: 5 }}>
+    <Card elevation={24} sx={{ maxWidth: 500, mx: "auto", mt: 5 }}>
       <CardContent>
         <Typography variant="h5" component="h2" gutterBottom align="center">
           Sign In

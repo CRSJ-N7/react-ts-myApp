@@ -1,12 +1,18 @@
+import { buttonColors } from "./colors";
+
 export const customButton = {
   root: {
-    color: '#FFFFFF',
-    backgroundColor: '#6e3cbd',
+    color: buttonColors.text,
+    backgroundColor: buttonColors.background,
     '&:hover': {
-      backgroundColor: '#7c45d6',
+      backgroundColor: buttonColors.backgroundHover,
     },
     '&.Mui-focusVisible': {
       boxShadow: 'none',
+    },
+    '&.Mui-disabled': {
+      color: buttonColors.text,
+      backgroundColor: buttonColors.background,
     },
   },  
 };
