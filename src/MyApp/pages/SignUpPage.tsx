@@ -1,16 +1,17 @@
 import { api } from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
-import { type FormValues } from "../types/types";
 import { TextField, Button, Card, CardContent, Typography } from "@mui/material";
 import { customForm } from "../mui-styles/forms";
 import { customButton } from "../mui-styles/buttons";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import * as Yup from 'yup';
+import { type FormValues } from "../types/types";
 import { login } from "../store/authSlice";
 import c from './Form.module.css';
-import * as Yup from 'yup';
 
 const SignUpPage = () => {
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

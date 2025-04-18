@@ -4,10 +4,9 @@ import { Button, CardContent, Card, TextField, Typography } from "@mui/material"
 import { customButton } from "../mui-styles/buttons";
 import { customForm } from "../mui-styles/forms";
 import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import { type FormValues } from "../types/types";
-import { selectorAuth } from "../store/authSlice";
 import * as Yup from 'yup';
 import c from './Form.module.css'
 
@@ -52,11 +51,6 @@ const SignInPage = () => {
       }
   }
   })
-
-  if (useSelector(selectorAuth)) {
-    return null
-  }
-
 
   return (
     <Card elevation={24} sx={{ maxWidth: 500, mx: "auto", mt: 5 }}>
