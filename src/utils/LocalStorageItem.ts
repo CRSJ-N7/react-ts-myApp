@@ -1,28 +1,27 @@
 type LocalStorageParams<T_DefaultValue> = {
   key: string
-  devaultValue: T_DefaultValue
+  defaultValue: T_DefaultValue
 }
-class LocalStorage<T_DefaultValue> {
+class LocalStorageItem<T_DefaultValue> {
   key: string
-  devaultValue: T_DefaultValue
+  defaultValue: T_DefaultValue
 
   constructor(params: LocalStorageParams<T_DefaultValue>) {
     this.key = params.key
-    this.devaultValue = params.devaultValue
+    this.defaultValue = params.defaultValue
   }
 
   get = (): T_DefaultValue => {
     const rawValue = localStorage.getItem(this.key)
-
     if (rawValue === null) {
-      return this.devaultValue
+      return this.defaultValue
     }
 
     try {
       const parsedValue = JSON.parse(rawValue)
       return parsedValue
     } catch {
-      return this.devaultValue
+      return this.defaultValue
     }
   }
 
@@ -36,4 +35,4 @@ class LocalStorage<T_DefaultValue> {
   }
 }
 
-export default LocalStorage
+export default LocalStorageItem;

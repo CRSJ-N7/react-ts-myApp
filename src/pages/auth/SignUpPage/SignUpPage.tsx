@@ -1,12 +1,12 @@
 import React from "react";
 import AuthContainer from "../components/AuthContainer";
 
-const SignInPage: React.FC = () => {
+const SignUpPage: React.FC = () => {
   return (
-    <AuthContainer title="Sign in page">
-      Sign In form
+    <AuthContainer title="Sign Up page">
+      Sign Up form
     </AuthContainer>
   )
 }
 
-export default SignInPage
+export default SignUpPage

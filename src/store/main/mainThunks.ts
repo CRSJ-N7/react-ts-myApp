@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import authApi from "../../api/authApi";
+import { authApi } from "../../api/authApi";
 
 const getMe = createAsyncThunk('main/getMe', async () => {
   const user = await authApi.getMe()
