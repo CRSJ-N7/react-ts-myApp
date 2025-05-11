@@ -5,6 +5,7 @@ type SignInResponse = {
   user: User,
   token: string
 }
+
 const signIn = async (data: { email: string, password: string }) => {
   const response = await api.post<SignInResponse>('/auth/sign-in', data)
 
@@ -13,17 +14,27 @@ const signIn = async (data: { email: string, password: string }) => {
   return response.data.user
 }
 
-const signUp = () => null
-const signOut = () => null
+type SignUpResponse = { // Посмотреть что возвращет сервер на sign up
+  user: User,
+  token: string,
+}
+const signUp = async (data: { username: string, email: string, password: string}) => {
+  const response = await api.post<SignUpResponse>('/auth/sign-up', data)
+
+  tokenStorage.set(response.data.token)
+
+  return response.data.user
+}
+
 const getMe = async () => {
   const response = await api.get<User>('/auth/me')
 
   return response.data
 }
 
-export default {
+export const authApi = {
   signIn,
   signUp,
-  signOut,
   getMe,
 }
+
