@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -6,13 +7,31 @@ import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography";
 
 import { useSafeUser } from "../../../store/main/hooks";
-import { clanMemberStorage, getClanMember } from "./ProfilePage.utils";
 import c from "../styles/authStyles.module.css";
 
 const ProfilePage: React.FC = () => {
   const user = useSafeUser(); // не до конца понимаю useUser или useSafeUser использовать. Хочу ещё раз обкашлять.
+  const [joke, setJoke] = useState("");
+  const [loadingJoke, setLoadingJoke] = useState(false);
 
-  const memberStorage = clanMemberStorage.get() || clanMemberStorage.set(getClanMember())
+  const fetchJoke = async () => {
+    setLoadingJoke(true);
+    try {
+      const response = await axios.get(
+        "https://official-joke-api.appspot.com/random_joke"
+      );
+      setJoke(`${response.data.setup} - ${response.data.punchline}`);
+    } catch (error) {
+      setJoke("Не удалось загрузить шутку");
+      console.error("Ошибка при загрузке шутки:", error);
+    } finally {
+      setLoadingJoke(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchJoke();
+  }, []);
   
   if (!user) {
     return null;
@@ -20,19 +39,10 @@ const ProfilePage: React.FC = () => {
   return (
     <div>
       <Card elevation={24} sx={{ maxWidth: 400, height: 400, mx: "auto", mt: 5 }}>
+        
         <CardContent>
           <div className={c.profileHeader}>
-            <Typography
-              variant="h5"
-              component="h3"
-              gutterBottom
-              align="center"
-              color="primary"
-            >
-              {user.username}'s
-              <br /> profile
-            </Typography>
-            <Avatar
+               <Avatar
               sx={{
                 cursor: "pointer",
                 bgcolor: "deepskyblue",
@@ -43,53 +53,29 @@ const ProfilePage: React.FC = () => {
             >
               {user.username[0].toUpperCase()}
             </Avatar>
+            <Card elevation={8} sx={{width: 'auto', backgroundColor: '', p: '0 25px 0 25px'}}>
+            <Typography
+              variant="h6"
+              component="h6"
+              gutterBottom
+              align="left"
+              color='primary'
+            >
+              {user.username}
+            </Typography>
+            </Card>
+         
           </div>
-          <Divider aria-hidden="true" sx={{ mb: "10px" }} />
-          <Typography
-            variant="body1"
-            component="p"
-            sx={{
-              mb: 0.5,
-              fontSize: "16px",
-              lineHeight: 1.3,
-            }}
-          >
-            Name: {user.username}
-          </Typography>
-          <Typography
-            variant="body1"
-            component="p"
-            sx={{
-              mb: 0.5,
-              fontSize: "16px",
-              lineHeight: 1.3,
-            }}
-          >
+          <Divider aria-hidden="true" sx={{ m: "10px", bgcolor: "lightgray" }} />
+          <Card elevation={8}sx={{mt: '10px', p: '0 25px 0 25px'}}>
             id: {user.id}
-          </Typography>
-          <Typography
-            variant="body1"
-            component="p"
-            sx={{
-              mb: 0.5,
-              fontSize: "16px",
-              lineHeight: 1.3,
-            }}
-          >
+          <Divider aria-hidden="true" sx={{ mt: "15px", bgcolor: "lightgray"}} />
+
             email: {user.email}
-          </Typography>
-           <Typography
-            variant="body1"
-            component="p"
-            sx={{
-              mb: 0.5,
-              fontSize: "16px",
-              lineHeight: 1.3,
-            }}
-          >
-            member: {memberStorage}
-          </Typography>
-          <Divider aria-hidden="true" sx={{ mt: "210px" }} />
+          <Divider aria-hidden="true" sx={{ mt: "15px", bgcolor: "lightgray"}} />
+            Favorite {user.username}'s joke:<br/>{loadingJoke ? <i>"Loading..."</i> : <i>{joke}</i>}
+          </Card>
+          <Divider aria-hidden="true" sx={{ mt: "15px", bgcolor: "lightgray"}} />
 
         </CardContent>
       </Card>

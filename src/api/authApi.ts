@@ -38,7 +38,8 @@ const getMe = async () => {
   return response.data;
 };
 
-const signOut = () => tokenStorage.remove();
+const signOut = () => tokenStorage.remove()
+
 
 export const authApi = {
   signIn,

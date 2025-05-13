@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Button, ButtonGroup } from "@mui/material";
 import { useUser } from "../../store/main/hooks";
 import { authApi } from "../../api/authApi";
 import { useAppDispatch } from "../../store/store";
@@ -22,11 +21,11 @@ const AppHeader = () => {
   if (user) {
     return (
       <nav className={c.header}>
-        <Box>
+          <ButtonGroup variant='contained' size="large" aria-label="large button group">
           <Button
             className={c.navButton}
-            size="large"
-            variant="outlined"
+            size="medium"
+            // variant="outlined"
             component={Link}
             to="/"
           >
@@ -34,8 +33,8 @@ const AppHeader = () => {
           </Button>
           <Button
             className={c.navButton}
-            size="large"
-            variant="outlined"
+            size="medium"
+            // variant="outlined"
             component={Link}
             to="/profile"
           >
@@ -43,15 +42,16 @@ const AppHeader = () => {
           </Button>
           <Button
             className={c.navButton}
-            size="large"
-            variant="outlined"
+            size="medium"
+            // variant="outlined"
             component={Link}
             onClick={handleSignOut}
             to="/"
           >
             Sign out
           </Button>
-        </Box>
+          </ButtonGroup>
+
       </nav>
     );
   }
@@ -59,10 +59,11 @@ const AppHeader = () => {
   return (
     <>
       <nav className={c.header}>
+        <ButtonGroup variant='contained' size="large" aria-label="large button group">
         <Button
           className={c.navButton}
-          size="large"
-          variant="outlined"
+          size="medium"
+          // variant="outlined"
           component={Link}
           to="sign-up"
         >
@@ -70,13 +71,14 @@ const AppHeader = () => {
         </Button>
         <Button
           className={c.navButton}
-          size="large"
-          variant="outlined"
+          size="medium"
+          // variant="outlined"
           component={Link}
           to="login"
         >
           Sign in
         </Button>
+        </ButtonGroup>
       </nav>
     </>
   );
