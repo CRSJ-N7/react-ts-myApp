@@ -1,0 +1,12 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profileHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+

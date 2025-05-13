@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.navButton {
+  height: 50px;
+  width: 125px;
+}
