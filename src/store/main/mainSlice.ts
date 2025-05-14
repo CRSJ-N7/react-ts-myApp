@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import mainThunks from "./mainThunks";
 import { type User } from "../../types";
 

@@ -5,14 +5,17 @@ import { authApi } from "../../api/authApi";
 import { useAppDispatch } from "../../store/store";
 import { mainSliceActions } from "../../store/main/mainSlice";
 import c from "../styles/AppHeader.module.css";
+import { useSnackbar } from "notistack";
 
 const AppHeader = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSignOut = () => {
     authApi.signOut();
     dispatch(mainSliceActions.setUser(null));
+    enqueueSnackbar("You are signed out", ({ variant: 'success' }))
     navigate("/");
   };
 

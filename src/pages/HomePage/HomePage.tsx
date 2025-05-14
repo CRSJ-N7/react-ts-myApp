@@ -8,16 +8,19 @@ const HomePage = () => {
   const handleClick = () => {
     if (!clicked) {
     setClicked(true);
+    setTimeout(() => {
+      setClicked(false)
+    }, 5000);
     } else {
       setClicked(false)
     }
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '65px' }}>
       {!clicked ? (
         <h1 
-          style={{ cursor: 'pointer' }} 
+          style={{ cursor: 'pointer', fontStyle: 'italic', fontFamily: 'fantasy', letterSpacing: '2px' }} 
           onClick={handleClick}
         >
           <b>Don't click</b>
