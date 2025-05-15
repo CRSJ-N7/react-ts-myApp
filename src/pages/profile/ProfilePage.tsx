@@ -5,15 +5,29 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-
-import { useSafeUser } from "../../../store/main/hooks";
-import c from "../styles/authStyles.module.css";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import { useSafeUser } from "../../store/main/hooks";
+import c from "./ProfilePage.module.css";
+import ProfileTab from "./components/ProfileTab";
+import EditingTab from "./components/EditingTab";
+import SecurityTab from "./components/SecurityTab";
 
 const ProfilePage: React.FC = () => {
   const user = useSafeUser(); // не до конца понимаю useUser или useSafeUser использовать. Хочу ещё раз обкашлять.
-  const userProfileName = user.username[0].toUpperCase() + user.username.slice(1).toLowerCase();
+  const userProfileName =
+    user.username[0].toUpperCase() + user.username.slice(1).toLowerCase();
   const [joke, setJoke] = useState("");
   const [loadingJoke, setLoadingJoke] = useState(false);
+
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   const fetchJoke = async () => {
     setLoadingJoke(true);
@@ -41,7 +55,7 @@ const ProfilePage: React.FC = () => {
     <div>
       <Card
         elevation={24}
-        sx={{ maxWidth: 400, height: 400, mx: "auto", mt: 5 }}
+        sx={{ maxWidth: 500, height: 400, mx: "auto", mt: 5 }}
       >
         <CardContent>
           <div className={c.profileHeader}>
@@ -56,34 +70,48 @@ const ProfilePage: React.FC = () => {
             >
               {user.username[0].toUpperCase()}
             </Avatar>
-              <Typography
-                variant="h6"
-                component="h6"
-                gutterBottom
-                align="left"
-                color="primary"
-              >
-                {userProfileName}
-              </Typography>
+            <Typography
+              variant="h6"
+              component="h6"
+              gutterBottom
+              align="left"
+              color="primary"
+            >
+              {userProfileName}
+            </Typography>
           </div>
           <Divider
             aria-hidden="true"
             sx={{ m: "10px", bgcolor: "lightgray" }}
           />
           <Card elevation={8} sx={{ mt: "10px", p: "0 25px 0 25px" }}>
-            <span className={c.cardContent}>id: {user.id}</span>
-            <Divider
-              aria-hidden="true"
-              sx={{ mt: "15px", bgcolor: "lightgray" }}
-            />
-            <span className={c.cardContent}>email: {user.email}</span>
-            <Divider
-              aria-hidden="true"
-              sx={{ mt: "15px", bgcolor: "lightgray" }}
-            />
-            <span className={c.cardContent}>Favorite {user.username}'s joke:</span>
-            <br />
-            <span className={`${c.cardContent} ${c.greenTheme}`}> {loadingJoke ? <i>"Loading..."</i> : <i>{joke}</i>} </span>
+            <Box sx={{ width: "100%", typography: "body1" }}>
+              <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="lab API tabs example"
+                  >
+                    <Tab label="Profile" value="1" />
+                    <Tab label="Editing" value="2" />
+                    <Tab label="Security" value="3" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  <ProfileTab
+                    joke={joke}
+                    loadingJoke={loadingJoke}
+                    user={user}
+                  />
+                </TabPanel>
+                <TabPanel value="2">
+                  <EditingTab user={user} />
+                </TabPanel>
+                <TabPanel value="3">
+                  <SecurityTab user={user} />
+                </TabPanel>
+              </TabContext>
+            </Box>
           </Card>
           <Divider
             aria-hidden="true"

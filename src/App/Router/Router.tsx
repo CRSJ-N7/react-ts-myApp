@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import SignInPage from '../../pages/auth/SignInPage/SignInPage'
 import SignUpPage from '../../pages/auth/SignUpPage/SignUpPage';
-import ProfilePage from '../../pages/auth/ProfilePage/ProfilePage';
-import HomePage from '../../pages/HomePage/HomePage';
+import ProfilePage from '../../pages/profile/ProfilePage';
+import HomePage from '../../pages/home/HomePage';
 import { useUser } from "../../store/main/hooks"
 import { useRouterLogger } from "./RouterLogger";
 

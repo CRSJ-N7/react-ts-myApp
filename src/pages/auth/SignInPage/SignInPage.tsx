@@ -82,7 +82,7 @@ const SignInPage: React.FC = () => {
         <Button variant="outlined" type="submit">
           Submit
         </Button>
-        <div className={c.profileFooter}>
+        <div className={c.authFooter}>
           <span className={c.description}>Don't have an account?</span>
           <Link to="/sign-up" style={{ textDecoration: "none" }}>
             <span className={c.link}>Sign Up</span>
