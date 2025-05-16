@@ -17,6 +17,7 @@ export const mainSlice = createSlice({
   reducers: {
     setUser: (store, action: PayloadAction<User | null>) => {
       store.user = action.payload
+      console.log(store.user)
     }
   },
   extraReducers: (builder) => {

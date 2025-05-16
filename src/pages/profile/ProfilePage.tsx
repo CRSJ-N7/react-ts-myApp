@@ -108,7 +108,7 @@ const ProfilePage: React.FC = () => {
                   <EditingTab user={user} />
                 </TabPanel>
                 <TabPanel value="3">
-                  <SecurityTab user={user} />
+                  <SecurityTab />
                 </TabPanel>
               </TabContext>
             </Box>

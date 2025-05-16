@@ -1,18 +1,23 @@
-import React from "react";
 import { User } from "../../../types";
 import c from "../ProfilePage.module.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { authApi } from "../../../api/authApi";
+import { useAppDispatch } from "../../../store/store";
+import { mainSliceActions } from "../../../store/main/mainSlice";
+import { enqueueSnackbar } from "notistack";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 type EditingTabProps = {
   user: User;
 };
 
 const EditingTab = (props: EditingTabProps) => {
-  const [userName] = React.useState(props.user.username);
-  const [userEmail] = React.useState(props.user.email);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const usernameSchema = Yup.object({
     username: Yup.string()
@@ -30,8 +35,26 @@ const EditingTab = (props: EditingTabProps) => {
       username: props.user.username,
     },
     validationSchema: usernameSchema,
-    onSubmit: () => {
-      console.log("something");
+    onSubmit: async () => {
+      try {
+        const response = await authApi.updateProfile({
+          username: usernameFormik.values.username,
+        });
+        dispatch(mainSliceActions.setUser(response));
+        enqueueSnackbar(`Username updated!`, {
+          variant: "success",
+        });
+        navigate('/profile')
+      } catch (error) {
+        if (error instanceof AxiosError && error.response) {
+          enqueueSnackbar(`${error.response.data.message}`, {
+            variant: "error",
+          });
+        } else {
+          console.log("Unknown error occurred");
+          enqueueSnackbar("Unknown error occurred", { variant: "error" });
+        }
+      }
     },
   });
 
@@ -40,20 +63,38 @@ const EditingTab = (props: EditingTabProps) => {
       email: props.user.email,
     },
     validationSchema: emailSchema,
-    onSubmit: () => {
-      console.log("something");
+    onSubmit: async () => {
+      try {
+        const response = await authApi.updateProfile({
+          email: emailFormik.values.email,
+        });
+        dispatch(mainSliceActions.setUser(response));
+        enqueueSnackbar(`Email updated!`, {
+          variant: "success",
+        });
+      } catch (error) {
+        if (error instanceof AxiosError && error.response) {
+          enqueueSnackbar(`${error.response.data.message}`, {
+            variant: "error",
+          });
+        navigate('/profile')
+        } else {
+          console.log("Unknown error occurred");
+          enqueueSnackbar("Unknown error occurred", { variant: "error" });
+        }
+      }
     },
   });
 
-  const handleSave = (value: string) => {
-    console.log(value);
-  };
   return (
     <div>
-      <div className={c.textFieldContainer}>
+      <form
+        onSubmit={usernameFormik.handleSubmit}
+        className={c.textFieldContainer}
+      >
         <TextField
           className={c.textField}
-          variant='standard'
+          variant="standard"
           id="username"
           name="username"
           value={usernameFormik.values.username}
@@ -67,27 +108,29 @@ const EditingTab = (props: EditingTabProps) => {
             usernameFormik.touched.username && usernameFormik.errors.username
           }
         />
-        <Button onClick={() => handleSave(userName)}>Save</Button>
-      </div>
-      <div className={c.textFieldContainer}>
+        <Button variant="outlined" type="submit" disabled={usernameFormik.isSubmitting}>
+         Save
+        </Button>
+      </form>
+      <form
+        onSubmit={emailFormik.handleSubmit}
+        className={c.textFieldContainer}
+      >
         <TextField
           className={c.textField}
-          variant='standard'
+          variant="standard"
           id="email"
           name="email"
           value={emailFormik.values.email}
           onChange={emailFormik.handleChange}
           onBlur={emailFormik.handleBlur}
-          error={
-            emailFormik.touched.email &&
-            Boolean(emailFormik.errors.email)
-          }
-          helperText={
-            emailFormik.touched.email && emailFormik.errors.email
-          }
+          error={emailFormik.touched.email && Boolean(emailFormik.errors.email)}
+          helperText={emailFormik.touched.email && emailFormik.errors.email}
         />
-        <Button onClick={() => handleSave(userEmail)}>Save</Button>
-      </div>
+        <Button variant="outlined" type="submit" disabled={emailFormik.isSubmitting}>
+          Save
+        </Button>
+      </form>
     </div>
   );
 };

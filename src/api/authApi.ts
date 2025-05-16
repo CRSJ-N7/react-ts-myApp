@@ -14,9 +14,9 @@ const signIn = async (data: { email: string; password: string }) => {
   return response.data.user;
 };
 
+// Посмотреть что возвращает сервер на sign up
+// Посмотрел, хочу на бэке поменять safeUser на user, а то херня какая-то
 type SignUpResponse = {
-  // Посмотреть что возвращает сервер на sign up
-  // Посмотрел, хочу на бэке поменять safeUser на user, а то херня какая-то
   safeUser: User;
   token: string;
 };
@@ -37,6 +37,30 @@ const getMe = async () => {
 
   return response.data;
 };
+type UpdateProfileResponse = {
+  updatedUser: User;
+};
+const updateProfile = async (data: {
+  email?: string;
+  username?: string;
+}) => {
+  const response = await api.patch<UpdateProfileResponse>("/auth/profile", data)
+
+  return response.data.updatedUser;
+}
+
+type UpdatePasswordResponse = {
+  user: User;
+};
+
+const updatePassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  const response = await api.patch<UpdatePasswordResponse>("/auth/password", data)
+  
+  return response.data.user;
+}
 
 const signOut = () => tokenStorage.remove()
 
@@ -46,4 +70,6 @@ export const authApi = {
   signUp,
   getMe,
   signOut,
+  updateProfile,
+  updatePassword,
 };
