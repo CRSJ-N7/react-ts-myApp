@@ -8,7 +8,6 @@ export const tokenStorage = new LocalStorageItem<null | string>({
   defaultValue: null,
 });
 
-
 const api = axios.create({
   baseURL: config.apiBaseUrl,
 });

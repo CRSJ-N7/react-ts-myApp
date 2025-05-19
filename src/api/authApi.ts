@@ -40,14 +40,14 @@ const getMe = async () => {
 type UpdateProfileResponse = {
   updatedUser: User;
 };
-const updateProfile = async (data: {
-  email?: string;
-  username?: string;
-}) => {
-  const response = await api.patch<UpdateProfileResponse>("/auth/profile", data)
+const updateProfile = async (data: { email?: string; username?: string }) => {
+  const response = await api.patch<UpdateProfileResponse>(
+    "/auth/profile",
+    data
+  );
 
   return response.data.updatedUser;
-}
+};
 
 type UpdatePasswordResponse = {
   user: User;
@@ -57,13 +57,15 @@ const updatePassword = async (data: {
   currentPassword: string;
   newPassword: string;
 }) => {
-  const response = await api.patch<UpdatePasswordResponse>("/auth/password", data)
-  
+  const response = await api.patch<UpdatePasswordResponse>(
+    "/auth/password",
+    data
+  );
+
   return response.data.user;
-}
+};
 
-const signOut = () => tokenStorage.remove()
-
+const signOut = () => tokenStorage.remove();
 
 export const authApi = {
   signIn,

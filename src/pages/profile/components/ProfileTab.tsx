@@ -1,6 +1,7 @@
+import Divider from "@mui/material/Divider";
+
 import { User } from "../../../types";
 import c from "../ProfilePage.module.css";
-import Divider from "@mui/material/Divider";
 
 type ProfileTabProps = {
   user: User;

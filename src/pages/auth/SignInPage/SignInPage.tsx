@@ -3,15 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { AxiosError, HttpStatusCode } from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useSnackbar } from "notistack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useSnackbar } from "notistack";
 
 import AuthContainer from "../components/AuthContainer";
 import { authApi } from "../../../api/authApi";
 import { useAppDispatch } from "../../../store/store";
 import { mainSliceActions } from "../../../store/main/mainSlice";
-import { type Form } from "../../../types";
 import c from "../styles/authStyles.module.css";
 
 const validationSchema = Yup.object({
@@ -30,7 +29,7 @@ const SignInPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const formik = useFormik<Pick<Form, "email" | "password">>({
+  const formik = useFormik({
     initialValues: {
       email: "",
       password: "",

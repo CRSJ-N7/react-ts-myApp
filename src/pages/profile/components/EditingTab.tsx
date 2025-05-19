@@ -1,15 +1,16 @@
-import { User } from "../../../types";
-import c from "../ProfilePage.module.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { enqueueSnackbar } from "notistack";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+
 import { authApi } from "../../../api/authApi";
 import { useAppDispatch } from "../../../store/store";
 import { mainSliceActions } from "../../../store/main/mainSlice";
-import { enqueueSnackbar } from "notistack";
-import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { User } from "../../../types";
+import c from "../ProfilePage.module.css";
 
 type EditingTabProps = {
   user: User;
@@ -44,7 +45,7 @@ const EditingTab = (props: EditingTabProps) => {
         enqueueSnackbar(`Username updated!`, {
           variant: "success",
         });
-        navigate('/profile')
+        navigate("/profile");
       } catch (error) {
         if (error instanceof AxiosError && error.response) {
           enqueueSnackbar(`${error.response.data.message}`, {
@@ -77,7 +78,7 @@ const EditingTab = (props: EditingTabProps) => {
           enqueueSnackbar(`${error.response.data.message}`, {
             variant: "error",
           });
-        navigate('/profile')
+          navigate("/profile");
         } else {
           console.log("Unknown error occurred");
           enqueueSnackbar("Unknown error occurred", { variant: "error" });
@@ -108,8 +109,12 @@ const EditingTab = (props: EditingTabProps) => {
             usernameFormik.touched.username && usernameFormik.errors.username
           }
         />
-        <Button variant="outlined" type="submit" disabled={usernameFormik.isSubmitting}>
-         Save
+        <Button
+          variant="outlined"
+          type="submit"
+          disabled={usernameFormik.isSubmitting}
+        >
+          Save
         </Button>
       </form>
       <form
@@ -127,7 +132,11 @@ const EditingTab = (props: EditingTabProps) => {
           error={emailFormik.touched.email && Boolean(emailFormik.errors.email)}
           helperText={emailFormik.touched.email && emailFormik.errors.email}
         />
-        <Button variant="outlined" type="submit" disabled={emailFormik.isSubmitting}>
+        <Button
+          variant="outlined"
+          type="submit"
+          disabled={emailFormik.isSubmitting}
+        >
           Save
         </Button>
       </form>

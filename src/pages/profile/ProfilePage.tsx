@@ -10,11 +10,12 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+
 import { useSafeUser } from "../../store/main/hooks";
-import c from "./ProfilePage.module.css";
 import ProfileTab from "./components/ProfileTab";
 import EditingTab from "./components/EditingTab";
 import SecurityTab from "./components/SecurityTab";
+import c from "./ProfilePage.module.css";
 
 const ProfilePage: React.FC = () => {
   const user = useSafeUser(); // не до конца понимаю useUser или useSafeUser использовать. Хочу ещё раз обкашлять.
@@ -27,7 +28,8 @@ const ProfilePage: React.FC = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
-  };
+  }; // я вот это не понимаю. Почему везде я могу без ссаного event обойтись
+  // а вот этой залупе НУ ПРЯМ НАДО ЗНАТЬ ШО ТУТ EVENT, который я не использую
 
   const fetchJoke = async () => {
     setLoadingJoke(true);
@@ -90,7 +92,7 @@ const ProfilePage: React.FC = () => {
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <TabList
                     onChange={handleChange}
-                    aria-label="lab API tabs example"
+                    aria-label="profile tab list"
                   >
                     <Tab label="Profile" value="1" />
                     <Tab label="Editing" value="2" />
